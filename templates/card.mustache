@@ -1,0 +1,63 @@
+{{!
+    @template mod_conference/card
+
+    Conference card shown to enrolled users.
+}}
+<div class="mod-conference-card">
+    {{#hascover}}
+        <div class="mod-conference-cover">
+            <img src="{{coverurl}}" alt="" loading="lazy">
+        </div>
+    {{/hascover}}
+
+    <div class="mod-conference-body">
+        <div class="mod-conference-heading">
+            <div class="mod-conference-camera" aria-hidden="true">
+                {{#pix}} icon, mod_conference {{/pix}}
+            </div>
+            <div class="mod-conference-titlewrap">
+                <span class="badge text-bg-{{statusclass}}">{{status}}</span>
+                <h2 class="mod-conference-title">{{name}}</h2>
+            </div>
+        </div>
+
+        {{#hasintro}}
+            <div class="mod-conference-intro">{{{intro}}}</div>
+        {{/hasintro}}
+
+        <dl class="mod-conference-schedule">
+            <div>
+                <dt>{{startlabel}}</dt>
+                <dd>{{start}}</dd>
+            </div>
+            {{#hasend}}
+                <div>
+                    <dt>{{endlabel}}</dt>
+                    <dd>{{end}}</dd>
+                </div>
+            {{/hasend}}
+        </dl>
+
+        <div class="mod-conference-action">
+            {{#islive}}
+                <a class="btn btn-primary btn-lg mod-conference-join" href="{{joinurl}}" target="_blank" rel="noopener noreferrer">
+                    {{#pix}} icon, mod_conference {{/pix}}
+                    <span>{{joinlabel}}</span>
+                </a>
+            {{/islive}}
+
+            {{#isscheduled}}
+                <div class="alert alert-info mb-0" role="status">
+                    <strong>{{scheduledmessage}}</strong>
+                    <div class="small mt-1">{{refreshhint}}</div>
+                </div>
+            {{/isscheduled}}
+
+            {{#isended}}
+                <div class="alert alert-secondary mb-0" role="status">
+                    {{endedmessage}}
+                </div>
+            {{/isended}}
+        </div>
+    </div>
+</div>

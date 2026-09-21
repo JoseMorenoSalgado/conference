@@ -1,28 +1,46 @@
 # Conference activity for Moodle
 
-A Moodle activity module for scheduled external video conferences. Teachers can configure a meeting URL (for example Zoom, Google Meet, Microsoft Teams, Jitsi, or another HTTPS provider), a scheduled start time, an optional end time, and a cover image. Students see a clean conference card and the join button is revealed server-side only when the scheduled time is reached.
+mod_conference is a Moodle activity module for scheduled external video conferences.
 
-Development targets Moodle 4.5 LTS through Moodle 5.2.
+A teacher pastes an HTTPS meeting link for Zoom, Google Meet, Microsoft Teams, Jitsi, or another provider, chooses the scheduled date and time, and can upload a cover image. Students see a responsive card. The external URL is not included in the page source before the scheduled start time; the Join button appears only when the conference is available and a protected server-side endpoint validates the schedule again before redirecting.
 
-> Status: initial development repository. The implementation is being developed on a feature branch before the first release.
+## Compatibility
 
-## Planned v1.0 scope
+- Moodle 4.5 LTS through Moodle 5.2.
+- No third-party PHP or JavaScript dependencies.
+- Uses Moodle APIs for files, capabilities, events, completion, calendar, privacy, backup, and restore.
 
-- Activity module: `mod_conference`.
-- Conference name and description.
-- HTTPS meeting URL.
-- Required scheduled start date/time and optional end date/time.
-- Optional uploaded cover image.
-- Theme-native Bootstrap styling; no hard-coded brand palette.
-- Server-side join gating so the URL is not sent to the browser before the start time.
-- Countdown that refreshes the page when the conference opens.
-- Moodle event logging and completion-by-view support.
+## Current features
+
+- Conference name and Moodle description.
+- HTTPS meeting URL validation.
+- Required scheduled start date and time.
+- Optional scheduled end date and time.
+- Optional cover image displayed as a responsive card.
+- Theme-native Bootstrap styles and CSS variables.
+- Camera activity icon.
+- Server-side URL gate to avoid exposing the meeting URL early.
 - Course calendar event.
-- Backup and restore.
+- Completion by view.
+- Moodle event logging.
 - Privacy API declaration.
-- English and Spanish language packs.
-- Moodle Plugin CI workflow.
+- Moodle backup and restore.
+- PHPUnit scheduling tests.
+- Moodle Plugin CI for Moodle 4.5 and 5.2 on MariaDB and PostgreSQL.
+
+## Installation
+
+1. Install the plugin directory as mod/conference.
+2. Visit Site administration > Notifications to complete installation.
+3. In a course, enable editing and add the Conference activity.
+4. Enter the conference name, HTTPS meeting URL, date and time, and optional cover image.
+
+## Security model
+
+The configured meeting URL is stored in the activity record but is not rendered to participants before the start time. Participants use the secure join endpoint, which checks login, capability, schedule state, and HTTPS validity before redirecting.
+
+This plugin does not bypass security controls provided by Zoom, Meet, Teams, or other conference systems. Meeting-room access controls should still be configured at the provider.
 
 ## License
 
-GPL-3.0-or-later.
+GNU GPL v3 or later.

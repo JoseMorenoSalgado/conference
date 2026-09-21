@@ -1,0 +1,108 @@
+.mod-conference-card {
+    --mod-conference-primary: var(--bs-primary, var(--primary, #0f6cbf));
+    max-width: 980px;
+    margin: 1.5rem auto;
+    overflow: hidden;
+    background: var(--bs-body-bg, #fff);
+    color: var(--bs-body-color, #212529);
+    border: 1px solid var(--bs-border-color, rgba(0, 0, 0, .125));
+    border-radius: 1rem;
+    box-shadow: 0 .75rem 2rem rgba(0, 0, 0, .08);
+}
+
+.mod-conference-card .mod-conference-cover {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--bs-tertiary-bg, #f1f3f5);
+}
+
+.mod-conference-card .mod-conference-cover img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.mod-conference-card .mod-conference-body {
+    padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.mod-conference-card .mod-conference-heading {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.mod-conference-card .mod-conference-camera {
+    width: 3rem;
+    height: 3rem;
+    flex: 0 0 3rem;
+    display: grid;
+    place-items: center;
+    border-radius: .85rem;
+    background: var(--bs-tertiary-bg, #f8f9fa);
+}
+
+.mod-conference-card .mod-conference-camera img,
+.mod-conference-card .mod-conference-join img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.mod-conference-card .mod-conference-title {
+    margin: .35rem 0 0;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.2;
+}
+
+.mod-conference-card .mod-conference-intro {
+    margin-top: 1.25rem;
+}
+
+.mod-conference-card .mod-conference-schedule {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .75rem;
+    margin: 1.5rem 0;
+}
+
+.mod-conference-card .mod-conference-schedule > div {
+    padding: 1rem;
+    background: var(--bs-tertiary-bg, #f8f9fa);
+    border-radius: .75rem;
+}
+
+.mod-conference-card .mod-conference-schedule dt {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    opacity: .72;
+}
+
+.mod-conference-card .mod-conference-schedule dd {
+    margin: .25rem 0 0;
+    font-weight: 600;
+}
+
+.mod-conference-card .mod-conference-join {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    min-height: 3rem;
+}
+
+@media (max-width: 575.98px) {
+    .mod-conference-card {
+        margin: .75rem 0;
+        border-radius: .75rem;
+    }
+
+    .mod-conference-card .mod-conference-schedule {
+        grid-template-columns: 1fr;
+    }
+
+    .mod-conference-card .mod-conference-join {
+        width: 100%;
+        justify-content: center;
+    }
+}

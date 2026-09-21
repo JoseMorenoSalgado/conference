@@ -247,7 +247,7 @@ function conference_get_file_areas($course, $cm, $context) {
  * @param array $options Options.
  * @return bool
  */
-function mod_conference_pluginfile(
+function conference_pluginfile(
     $course,
     $cm,
     $context,

@@ -43,6 +43,7 @@ $PAGE->set_heading(format_string($course->fullname));
 
 $state = conference_get_state($conference);
 $coverurl = conference_get_coverimage_url($context);
+$elementid = 'mod-conference-card-' . $cm->id;
 
 $statusclass = 'secondary';
 if ($state === 'live') {
@@ -52,6 +53,7 @@ if ($state === 'live') {
 }
 
 $data = [
+    'elementid' => $elementid,
     'name' => format_string($conference->name),
     'intro' => format_module_intro('conference', $conference, $cm->id),
     'hasintro' => !empty(trim($conference->intro)),
@@ -78,7 +80,23 @@ $data = [
     ),
     'endedmessage' => get_string('conferenceended', 'conference'),
     'refreshhint' => get_string('refreshhint', 'conference'),
+    'countdownprefix' => get_string('countdownprefix', 'conference'),
 ];
+
+if ($state !== 'ended' && ($state === 'scheduled' || !empty($conference->timeend))) {
+    $PAGE->requires->js_call_amd('mod_conference/schedule', 'init', [[
+        'elementId' => $elementid,
+        'serverTime' => time(),
+        'startTime' => (int) $conference->timestart,
+        'endTime' => (int) $conference->timeend,
+        'countdownPrefix' => get_string('countdownprefix', 'conference'),
+        'scheduledLabel' => get_string('statusscheduled', 'conference'),
+        'liveLabel' => get_string('statuslive', 'conference'),
+        'endedLabel' => get_string('statusended', 'conference'),
+        'liveAnnouncement' => get_string('liveannouncement', 'conference'),
+        'endedAnnouncement' => get_string('conferenceended', 'conference'),
+    ]]);
+}
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('mod_conference/card', $data);

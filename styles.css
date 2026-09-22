@@ -84,6 +84,11 @@
     font-weight: 600;
 }
 
+.mod-conference-card .mod-conference-countdown {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
 .mod-conference-card .mod-conference-join {
     display: inline-flex;
     align-items: center;

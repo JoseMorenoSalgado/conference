@@ -21,6 +21,7 @@
 
     Example context (json):
     {
+        "elementid": "mod-conference-card-10",
         "name": "Clinical nutrition conference",
         "intro": "<p>Live online conference.</p>",
         "hasintro": true,
@@ -31,19 +32,20 @@
         "hasend": true,
         "endlabel": "Scheduled end",
         "end": "30 September 2026, 8:00 PM",
-        "status": "Available now",
-        "statusclass": "success",
-        "islive": true,
-        "isscheduled": false,
+        "status": "Scheduled",
+        "statusclass": "secondary",
+        "islive": false,
+        "isscheduled": true,
         "isended": false,
         "joinurl": "https://example.com/mod/conference/join.php?id=10",
         "joinlabel": "Join conference",
         "scheduledmessage": "The conference link will be available at the scheduled time.",
         "endedmessage": "This conference has ended.",
-        "refreshhint": "Reload this page at the scheduled time."
+        "refreshhint": "The join button will activate automatically.",
+        "countdownprefix": "Starts in"
     }
 }}
-<div class="mod-conference-card">
+<div class="mod-conference-card" id="{{elementid}}">
     {{#hascover}}
         <div class="mod-conference-cover">
             <img src="{{coverurl}}" alt="" loading="lazy">
@@ -56,7 +58,7 @@
                 {{#pix}} icon, mod_conference {{/pix}}
             </div>
             <div class="mod-conference-titlewrap">
-                <span class="badge text-bg-{{statusclass}}">{{status}}</span>
+                <span class="badge text-bg-{{statusclass}}" data-region="status-badge">{{status}}</span>
                 <h2 class="mod-conference-title">{{name}}</h2>
             </div>
         </div>
@@ -79,25 +81,36 @@
         </dl>
 
         <div class="mod-conference-action">
-            {{#islive}}
-                <a class="btn btn-primary btn-lg mod-conference-join" href="{{joinurl}}" target="_blank" rel="noopener noreferrer">
+            <div data-region="live"{{^islive}} class="d-none"{{/islive}}>
+                <a class="btn btn-primary btn-lg mod-conference-join"
+                   href="{{joinurl}}"
+                   target="_blank"
+                   rel="noopener noreferrer">
                     {{#pix}} icon, mod_conference {{/pix}}
                     <span>{{joinlabel}}</span>
                 </a>
-            {{/islive}}
+            </div>
 
-            {{#isscheduled}}
-                <div class="alert alert-info mb-0" role="status">
-                    <strong>{{scheduledmessage}}</strong>
-                    <div class="small mt-1">{{refreshhint}}</div>
+            <div class="alert alert-info mb-0{{^isscheduled}} d-none{{/isscheduled}}"
+                 role="status"
+                 data-region="scheduled">
+                <strong>{{scheduledmessage}}</strong>
+                <div class="small mt-1">{{refreshhint}}</div>
+                <div class="mod-conference-countdown mt-2" data-region="countdown">
+                    {{countdownprefix}}
                 </div>
-            {{/isscheduled}}
+            </div>
 
-            {{#isended}}
-                <div class="alert alert-secondary mb-0" role="status">
-                    {{endedmessage}}
-                </div>
-            {{/isended}}
+            <div class="alert alert-secondary mb-0{{^isended}} d-none{{/isended}}"
+                 role="status"
+                 data-region="ended">
+                {{endedmessage}}
+            </div>
+
+            <div class="visually-hidden"
+                 aria-live="polite"
+                 aria-atomic="true"
+                 data-region="announcement"></div>
         </div>
     </div>
 </div>

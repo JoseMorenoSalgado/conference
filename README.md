@@ -20,6 +20,7 @@ A teacher pastes an HTTPS meeting link for Zoom, Google Meet, Microsoft Teams, J
 - Theme-native Bootstrap styles and CSS variables.
 - Camera activity icon.
 - Server-side URL gate to avoid exposing the meeting URL early.
+- Server-synchronized countdown with automatic Join-button activation and automatic end-state transition.
 - Course calendar event.
 - Completion by view.
 - Moodle event logging.

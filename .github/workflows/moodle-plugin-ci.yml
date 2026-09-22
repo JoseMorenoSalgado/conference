@@ -109,20 +109,6 @@ jobs:
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci mustache
 
-      - name: Generate AMD build for verification
-        if: ${{ !cancelled() }}
-        run: |
-          PLUGINPATH="moodle/mod/conference"
-          if [ -d "moodle/public/mod/conference" ]; then
-            PLUGINPATH="moodle/public/mod/conference"
-          fi
-          cd "$PLUGINPATH"
-          npx grunt amd
-          echo "===== schedule.min.js ====="
-          cat amd/build/schedule.min.js
-          echo "===== schedule.min.js.map ====="
-          cat amd/build/schedule.min.js.map
-
       - name: Grunt
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci grunt --max-lint-warnings 0

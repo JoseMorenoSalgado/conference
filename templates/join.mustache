@@ -27,22 +27,62 @@
         "passwordlabel": "Access password",
         "accesspassword": "482915",
         "passwordhint": "Use this password when the conference provider asks for it.",
+        "providerlabel": "Provider",
+        "provider": "Zoom",
+        "hasmeetingreference": true,
+        "meetingreferencelabel": "Meeting ID",
+        "meetingreference": "841 9709 3904",
         "continueconference": "Continue to conference",
         "meetingurl": "https://meet.example.com/room"
     }
 }}
-<div class="card mx-auto my-4">
-    <div class="card-body p-4">
-        <span class="badge text-bg-success mb-3">{{status}}</span>
-        <h2 class="h3 card-title">{{name}}</h2>
-        <p class="card-text">{{passwordhint}}</p>
-
-        <div class="border rounded p-3 my-4">
-            <div class="small text-uppercase fw-semibold mb-1">{{passwordlabel}}</div>
-            <code class="fs-4 user-select-all">{{accesspassword}}</code>
+<div class="mod-conference-card mod-conference-handoff">
+    <div class="mod-conference-body">
+        <div class="mod-conference-toolbar">
+            <div class="mod-conference-statusgroup">
+                <div class="mod-conference-camera" aria-hidden="true">
+                    {{#pix}} icon, mod_conference {{/pix}}
+                </div>
+                <span class="badge text-bg-success">{{status}}</span>
+            </div>
         </div>
 
-        <a class="btn btn-primary btn-lg" href="{{meetingurl}}">
+        <h2 class="mod-conference-title">{{name}}</h2>
+        <p class="mod-conference-handoff-intro">{{passwordhint}}</p>
+
+        <dl class="mod-conference-meta-grid">
+            <div class="mod-conference-meta-card">
+                <span class="mod-conference-meta-icon" aria-hidden="true">
+                    {{#pix}} icon, mod_conference {{/pix}}
+                </span>
+                <span class="mod-conference-meta-copy">
+                    <dt>{{providerlabel}}</dt>
+                    <dd>{{provider}}</dd>
+                </span>
+            </div>
+
+            {{#hasmeetingreference}}
+                <div class="mod-conference-meta-card">
+                    <span class="mod-conference-meta-icon mod-conference-meta-symbol" aria-hidden="true">#</span>
+                    <span class="mod-conference-meta-copy">
+                        <dt>{{meetingreferencelabel}}</dt>
+                        <dd>{{meetingreference}}</dd>
+                    </span>
+                </div>
+            {{/hasmeetingreference}}
+
+            <div class="mod-conference-meta-card mod-conference-password-card">
+                <span class="mod-conference-meta-icon" aria-hidden="true">
+                    {{#pix}} t/locked, core {{/pix}}
+                </span>
+                <span class="mod-conference-meta-copy">
+                    <dt>{{passwordlabel}}</dt>
+                    <dd><code class="mod-conference-passcode user-select-all">{{accesspassword}}</code></dd>
+                </span>
+            </div>
+        </dl>
+
+        <a class="btn btn-primary btn-lg mod-conference-join" href="{{meetingurl}}" rel="noopener noreferrer">
             {{#pix}} icon, mod_conference {{/pix}}
             <span>{{continueconference}}</span>
         </a>

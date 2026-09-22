@@ -2,6 +2,13 @@
 
 All notable changes to `mod_conference` are documented here.
 
+## 0.2.2-alpha - 2026-09-22
+
+- Fixed cover image delivery by correctly separating the pluginfile item id from the stored file path.
+- Removed duplicated activity description content from the conference card; Moodle/theme rendering remains the single description source.
+- Preserved Moodle's forced-download argument when serving cover images.
+- Clarified that provider passcodes should not be placed in the activity description because the description can be visible before the scheduled start.
+
 ## 0.2.1-alpha - 2026-09-22
 
 - Added optional external conference access passcodes.

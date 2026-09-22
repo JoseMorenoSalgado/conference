@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_conference';
-$plugin->version = 2026092201;
+$plugin->version = 2026092202;
 $plugin->requires = 2024100700;
 $plugin->supported = [405, 502];
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '0.2.1-alpha';
+$plugin->release = '0.2.2-alpha';

@@ -109,21 +109,6 @@ jobs:
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci mustache
 
-      - name: Capture AMD build bytes
-        if: ${{ !cancelled() }}
-        run: |
-          PLUGINPATH="moodle/mod/conference"
-          if [ -d "moodle/public/mod/conference" ]; then
-            PLUGINPATH="moodle/public/mod/conference"
-          fi
-          cd "$PLUGINPATH"
-          npx grunt amd
-          printf 'SCHEDULE_MIN_BASE64='
-          base64 -w 0 amd/build/schedule.min.js
-          printf '\nSCHEDULE_MAP_BASE64='
-          base64 -w 0 amd/build/schedule.min.js.map
-          printf '\n'
-
       - name: Grunt
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci grunt --max-lint-warnings 0

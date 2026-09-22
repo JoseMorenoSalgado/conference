@@ -58,6 +58,22 @@ class mod_conference_mod_form extends moodleform_mod {
         $mform->addRule('meetingurl', null, 'required', null, 'client');
         $mform->addHelpButton('meetingurl', 'meetingurl', 'conference');
 
+        $mform->addElement(
+            'text',
+            'accesspassword',
+            get_string('accesspassword', 'conference'),
+            ['size' => 32, 'autocomplete' => 'off']
+        );
+        $mform->setType('accesspassword', PARAM_RAW_TRIMMED);
+        $mform->addRule(
+            'accesspassword',
+            get_string('maximumchars', '', 255),
+            'maxlength',
+            255,
+            'client'
+        );
+        $mform->addHelpButton('accesspassword', 'accesspassword', 'conference');
+
         $mform->addElement('date_time_selector', 'timestart', get_string('timestart', 'conference'));
         $mform->addHelpButton('timestart', 'timestart', 'conference');
         $mform->setDefault('timestart', time() + HOURSECS);
@@ -130,6 +146,10 @@ class mod_conference_mod_form extends moodleform_mod {
         $parts = $url ? parse_url($url) : false;
         if (!$parts || empty($parts['scheme']) || strtolower($parts['scheme']) !== 'https' || empty($parts['host'])) {
             $errors['meetingurl'] = get_string('invalidmeetingurl', 'conference');
+        }
+
+        if (core_text::strlen((string) ($data['accesspassword'] ?? '')) > 255) {
+            $errors['accesspassword'] = get_string('maximumchars', '', 255);
         }
 
         if (!empty($data['enabletimeend']) && (int) $data['timeend'] <= (int) $data['timestart']) {

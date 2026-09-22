@@ -66,4 +66,25 @@ if (!$parts || empty($parts['scheme']) || strtolower($parts['scheme']) !== 'http
     throw new moodle_exception('invalidmeetingurl', 'conference');
 }
 
-redirect(new moodle_url($meetingurl));
+$accesspassword = clean_param($conference->accesspassword ?? '', PARAM_RAW_TRIMMED);
+if ($accesspassword === '') {
+    redirect(new moodle_url($meetingurl));
+}
+
+$PAGE->set_url('/mod/conference/join.php', ['id' => $cm->id]);
+$PAGE->set_title(format_string($conference->name));
+$PAGE->set_heading(format_string($course->fullname));
+
+$data = [
+    'name' => format_string($conference->name),
+    'status' => get_string('statuslive', 'conference'),
+    'passwordlabel' => get_string('accesspassword', 'conference'),
+    'accesspassword' => $accesspassword,
+    'passwordhint' => get_string('passwordhint', 'conference'),
+    'continueconference' => get_string('continueconference', 'conference'),
+    'meetingurl' => (new moodle_url($meetingurl))->out(false),
+];
+
+echo $OUTPUT->header();
+echo $OUTPUT->render_from_template('mod_conference/join', $data);
+echo $OUTPUT->footer();

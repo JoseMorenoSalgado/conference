@@ -73,6 +73,7 @@ function conference_add_instance($data, $mform = null) {
     $data->timemodified = $now;
     $data->timeend = !empty($data->enabletimeend) ? (int) $data->timeend : 0;
     $data->meetingurl = clean_param($data->meetingurl, PARAM_URL);
+    $data->accesspassword = clean_param($data->accesspassword ?? '', PARAM_RAW_TRIMMED);
 
     $id = $DB->insert_record('conference', $data);
 
@@ -106,6 +107,7 @@ function conference_update_instance($data, $mform = null) {
     $data->timemodified = time();
     $data->timeend = !empty($data->enabletimeend) ? (int) $data->timeend : 0;
     $data->meetingurl = clean_param($data->meetingurl, PARAM_URL);
+    $data->accesspassword = clean_param($data->accesspassword ?? '', PARAM_RAW_TRIMMED);
 
     $DB->update_record('conference', $data);
 

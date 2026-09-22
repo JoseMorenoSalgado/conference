@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Version metadata for the Conference activity.
+ * Upgrade steps for the Conference activity.
  *
  * @package   mod_conference
  * @copyright 2026 José Moreno Salgado
@@ -24,9 +24,36 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'mod_conference';
-$plugin->version = 2026092200;
-$plugin->requires = 2024100700;
-$plugin->supported = [405, 502];
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '0.2.0-alpha';
+/**
+ * Upgrade mod_conference.
+ *
+ * @param int $oldversion Installed plugin version.
+ * @return bool
+ */
+function xmldb_conference_upgrade($oldversion) {
+    global $DB;
+
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2026092200) {
+        $table = new xmldb_table('conference');
+        $field = new xmldb_field(
+            'accesspassword',
+            XMLDB_TYPE_CHAR,
+            '255',
+            null,
+            XMLDB_NOTNULL,
+            null,
+            '',
+            'meetingurl'
+        );
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_mod_savepoint(true, 2026092200, 'conference');
+    }
+
+    return true;
+}

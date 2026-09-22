@@ -41,6 +41,7 @@ class backup_conference_activity_structure_step extends backup_activity_structur
                 'intro',
                 'introformat',
                 'meetingurl',
+                'accesspassword',
                 'timestart',
                 'timeend',
                 'timecreated',

@@ -27,6 +27,9 @@
         "hasintro": true,
         "coverurl": "https://example.com/conference.jpg",
         "hascover": true,
+        "haspassword": true,
+        "passwordlabel": "Access password",
+        "passwordrequired": "Required — shown when you join",
         "startlabel": "Scheduled start",
         "start": "30 September 2026, 7:00 PM",
         "hasend": true,
@@ -78,6 +81,12 @@
                     <dd>{{end}}</dd>
                 </div>
             {{/hasend}}
+            {{#haspassword}}
+                <div>
+                    <dt>{{passwordlabel}}</dt>
+                    <dd>{{passwordrequired}}</dd>
+                </div>
+            {{/haspassword}}
         </dl>
 
         <div class="mod-conference-action">

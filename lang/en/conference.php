@@ -22,10 +22,13 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['accesspassword'] = 'Access password';
+$string['accesspassword_help'] = 'Optional password or passcode required by the external conference provider. It is not shown to participants before the scheduled start time.';
 $string['calendarstart'] = 'Conference: {$a}';
 $string['conference:addinstance'] = 'Add a new conference';
 $string['conference:view'] = 'View conference';
 $string['conferenceended'] = 'This conference has ended.';
+$string['continueconference'] = 'Continue to conference';
 $string['countdownprefix'] = 'Starts in';
 $string['coverimage'] = 'Conference cover image';
 $string['coverimage_help'] = 'Optional image displayed at the top of the conference card. Recommended aspect ratio: 16:9.';
@@ -43,6 +46,8 @@ $string['modulename'] = 'Conference';
 $string['modulenameplural'] = 'Conferences';
 $string['notopenyet'] = 'The conference link will be available on {$a}.';
 $string['page-mod-conference-x'] = 'Any conference module page';
+$string['passwordhint'] = 'Use this password when the conference provider asks for it.';
+$string['passwordrequired'] = 'Required — shown when you join';
 $string['pluginadministration'] = 'Conference administration';
 $string['pluginname'] = 'Conference';
 $string['privacy:metadata'] = 'The Conference activity does not store personal data. Moodle core may record standard activity access logs. Opening a conference link may send data to the external meeting provider according to that provider’s privacy policy.';

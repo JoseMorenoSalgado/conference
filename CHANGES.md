@@ -2,6 +2,10 @@
 
 All notable changes to `mod_conference` are documented here.
 
+## 0.2.3-alpha - 2026-09-22
+
+- Added bundled Spanish (`es`) interface strings for the activity, form fields, statuses, schedule messages, passcode flow, and conference actions.
+
 ## 0.2.2-alpha - 2026-09-22
 
 - Fixed cover image delivery by correctly separating the pluginfile item id from the stored file path.

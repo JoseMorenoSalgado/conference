@@ -35,24 +35,27 @@ function xmldb_conference_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2026092200) {
+    if ($oldversion < 2026092201) {
         $table = new xmldb_table('conference');
         $field = new xmldb_field(
             'accesspassword',
             XMLDB_TYPE_CHAR,
             '255',
             null,
-            XMLDB_NOTNULL,
             null,
-            '',
+            null,
+            null,
             'meetingurl'
         );
 
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
+        } else {
+            $dbman->change_field_notnull($table, $field);
+            $dbman->change_field_default($table, $field);
         }
 
-        upgrade_mod_savepoint(true, 2026092200, 'conference');
+        upgrade_mod_savepoint(true, 2026092201, 'conference');
     }
 
     return true;

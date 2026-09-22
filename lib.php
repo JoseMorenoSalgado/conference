@@ -378,15 +378,24 @@ function conference_pluginfile(
     require_login($course, true, $cm);
     require_capability('mod/conference:view', $context);
 
+    if (!$args) {
+        return false;
+    }
+
+    $itemid = (int) array_shift($args);
+    if ($itemid !== 0 || !$args) {
+        return false;
+    }
+
     $filename = array_pop($args);
-    $filepath = '/' . implode('/', $args) . '/';
+    $filepath = $args ? '/' . implode('/', $args) . '/' : '/';
 
     $fs = get_file_storage();
     $file = $fs->get_file(
         $context->id,
         'mod_conference',
         'coverimage',
-        0,
+        $itemid,
         $filepath,
         $filename
     );
@@ -395,7 +404,7 @@ function conference_pluginfile(
         return false;
     }
 
-    send_stored_file($file, DAYSECS, 0, false, $options);
+    send_stored_file($file, DAYSECS, 0, $forcedownload, $options);
 }
 
 /**

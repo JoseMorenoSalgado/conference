@@ -23,7 +23,7 @@
  */
 
 $string['accesspassword'] = 'Access password';
-$string['accesspassword_help'] = 'Optional password or passcode required by the external conference provider. It is not shown to participants before the scheduled start time.';
+$string['accesspassword_help'] = 'Optional password or passcode required by the external conference provider. It is not shown to participants before the scheduled start time. Do not place the passcode in the activity description because the description may be visible before the conference opens.';
 $string['calendarstart'] = 'Conference: {$a}';
 $string['conference:addinstance'] = 'Add a new conference';
 $string['conference:view'] = 'View conference';

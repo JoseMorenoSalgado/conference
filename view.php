@@ -55,8 +55,6 @@ if ($state === 'live') {
 $data = [
     'elementid' => $elementid,
     'name' => format_string($conference->name),
-    'intro' => format_module_intro('conference', $conference, $cm->id),
-    'hasintro' => !empty(trim($conference->intro)),
     'coverurl' => $coverurl ? $coverurl->out(false) : null,
     'hascover' => (bool) $coverurl,
     'haspassword' => $conference->accesspassword !== null && $conference->accesspassword !== '',

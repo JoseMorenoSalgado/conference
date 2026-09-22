@@ -1,0 +1,50 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_conference/join
+
+    Secure handoff page shown only after the server confirms a password-protected
+    conference is live.
+
+    Example context (json):
+    {
+        "name": "Clinical nutrition conference",
+        "status": "Available now",
+        "passwordlabel": "Access password",
+        "accesspassword": "482915",
+        "passwordhint": "Use this password when the conference provider asks for it.",
+        "continueconference": "Continue to conference",
+        "meetingurl": "https://meet.example.com/room"
+    }
+}}
+<div class="card mx-auto my-4">
+    <div class="card-body p-4">
+        <span class="badge text-bg-success mb-3">{{status}}</span>
+        <h2 class="h3 card-title">{{name}}</h2>
+        <p class="card-text">{{passwordhint}}</p>
+
+        <div class="border rounded p-3 my-4">
+            <div class="small text-uppercase fw-semibold mb-1">{{passwordlabel}}</div>
+            <code class="fs-4 user-select-all">{{accesspassword}}</code>
+        </div>
+
+        <a class="btn btn-primary btn-lg" href="{{meetingurl}}">
+            {{#pix}} icon, mod_conference {{/pix}}
+            <span>{{continueconference}}</span>
+        </a>
+    </div>
+</div>

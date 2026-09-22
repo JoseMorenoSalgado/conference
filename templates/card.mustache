@@ -1,0 +1,125 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_conference/card
+
+    Responsive conference card shown to participants.
+
+    Example context (json):
+    {
+        "elementid": "mod-conference-card-10",
+        "name": "Clinical nutrition conference",
+        "intro": "<p>Live online conference.</p>",
+        "hasintro": true,
+        "coverurl": "https://example.com/conference.jpg",
+        "hascover": true,
+        "haspassword": true,
+        "passwordlabel": "Access password",
+        "passwordrequired": "Required — shown when you join",
+        "startlabel": "Scheduled start",
+        "start": "30 September 2026, 7:00 PM",
+        "hasend": true,
+        "endlabel": "Scheduled end",
+        "end": "30 September 2026, 8:00 PM",
+        "status": "Scheduled",
+        "statusclass": "secondary",
+        "islive": false,
+        "isscheduled": true,
+        "isended": false,
+        "joinurl": "https://example.com/mod/conference/join.php?id=10",
+        "joinlabel": "Join conference",
+        "scheduledmessage": "The conference link will be available at the scheduled time.",
+        "endedmessage": "This conference has ended.",
+        "refreshhint": "The join button will activate automatically.",
+        "countdownprefix": "Starts in"
+    }
+}}
+<div class="mod-conference-card" id="{{elementid}}">
+    {{#hascover}}
+        <div class="mod-conference-cover">
+            <img src="{{coverurl}}" alt="" loading="lazy">
+        </div>
+    {{/hascover}}
+
+    <div class="mod-conference-body">
+        <div class="mod-conference-heading">
+            <div class="mod-conference-camera" aria-hidden="true">
+                {{#pix}} icon, mod_conference {{/pix}}
+            </div>
+            <div class="mod-conference-titlewrap">
+                <span class="badge text-bg-{{statusclass}}" data-region="status-badge">{{status}}</span>
+                <h2 class="mod-conference-title">{{name}}</h2>
+            </div>
+        </div>
+
+        {{#hasintro}}
+            <div class="mod-conference-intro">{{{intro}}}</div>
+        {{/hasintro}}
+
+        <dl class="mod-conference-schedule">
+            <div>
+                <dt>{{startlabel}}</dt>
+                <dd>{{start}}</dd>
+            </div>
+            {{#hasend}}
+                <div>
+                    <dt>{{endlabel}}</dt>
+                    <dd>{{end}}</dd>
+                </div>
+            {{/hasend}}
+            {{#haspassword}}
+                <div>
+                    <dt>{{passwordlabel}}</dt>
+                    <dd>{{passwordrequired}}</dd>
+                </div>
+            {{/haspassword}}
+        </dl>
+
+        <div class="mod-conference-action">
+            <div data-region="live"{{^islive}} class="d-none"{{/islive}}>
+                <a class="btn btn-primary btn-lg mod-conference-join"
+                   href="{{joinurl}}"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    {{#pix}} icon, mod_conference {{/pix}}
+                    <span>{{joinlabel}}</span>
+                </a>
+            </div>
+
+            <div class="alert alert-info mb-0{{^isscheduled}} d-none{{/isscheduled}}"
+                 role="status"
+                 data-region="scheduled">
+                <strong>{{scheduledmessage}}</strong>
+                <div class="small mt-1">{{refreshhint}}</div>
+                <div class="mod-conference-countdown mt-2" data-region="countdown">
+                    {{countdownprefix}}
+                </div>
+            </div>
+
+            <div class="alert alert-secondary mb-0{{^isended}} d-none{{/isended}}"
+                 role="status"
+                 data-region="ended">
+                {{endedmessage}}
+            </div>
+
+            <div class="visually-hidden"
+                 aria-live="polite"
+                 aria-atomic="true"
+                 data-region="announcement"></div>
+        </div>
+    </div>
+</div>

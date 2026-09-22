@@ -2,6 +2,14 @@
 
 All notable changes to `mod_conference` are documented here.
 
+## 0.3.0-alpha - 2026-09-22
+
+- Redesigned the conference card with a premium responsive information hierarchy and full-width primary action.
+- Added automatic provider detection for Zoom, Google Meet, Microsoft Teams, Jitsi, Webex, and generic external providers.
+- Added safe meeting reference extraction for supported providers; meeting IDs/codes are only exposed after the conference is live.
+- Added provider, meeting reference, meeting-link guidance, and improved passcode presentation in English and Spanish.
+- Redesigned the secure passcode handoff page to match the conference card.
+
 ## 0.2.3-alpha - 2026-09-22
 
 - Added bundled Spanish (`es`) interface strings for the activity, form fields, statuses, schedule messages, passcode flow, and conference actions.

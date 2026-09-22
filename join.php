@@ -66,6 +66,10 @@ if (!$parts || empty($parts['scheme']) || strtolower($parts['scheme']) !== 'http
     throw new moodle_exception('invalidmeetingurl', 'conference');
 }
 
+$providerkey = conference_detect_provider($meetingurl);
+$provider = conference_get_provider_name($providerkey);
+$meetingreference = conference_get_meeting_reference($meetingurl, $providerkey);
+
 $accesspassword = clean_param($conference->accesspassword ?? '', PARAM_RAW_TRIMMED);
 if ($accesspassword === '') {
     redirect(new moodle_url($meetingurl));
@@ -82,6 +86,11 @@ $data = [
     'accesspassword' => $accesspassword,
     'passwordhint' => get_string('passwordhint', 'conference'),
     'continueconference' => get_string('continueconference', 'conference'),
+    'providerlabel' => get_string('provider', 'conference'),
+    'provider' => $provider,
+    'hasmeetingreference' => $meetingreference !== null,
+    'meetingreferencelabel' => conference_get_meeting_reference_label($providerkey),
+    'meetingreference' => $meetingreference,
     'meetingurl' => (new moodle_url($meetingurl))->out(false),
 ];
 

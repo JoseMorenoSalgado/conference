@@ -44,6 +44,11 @@ $PAGE->set_heading(format_string($course->fullname));
 $state = conference_get_state($conference);
 $coverurl = conference_get_coverimage_url($context);
 $elementid = 'mod-conference-card-' . $cm->id;
+$providerkey = conference_detect_provider($conference->meetingurl);
+$provider = conference_get_provider_name($providerkey);
+$meetingreference = $state === 'live'
+    ? conference_get_meeting_reference($conference->meetingurl, $providerkey)
+    : null;
 
 $statusclass = 'secondary';
 if ($state === 'live') {
@@ -59,7 +64,17 @@ $data = [
     'hascover' => (bool) $coverurl,
     'haspassword' => $conference->accesspassword !== null && $conference->accesspassword !== '',
     'passwordlabel' => get_string('accesspassword', 'conference'),
-    'passwordrequired' => get_string('passwordrequired', 'conference'),
+    'passwordrequired' => get_string('passwordhidden', 'conference'),
+    'conferenceonline' => get_string('conferenceonline', 'conference'),
+    'providerlabel' => get_string('provider', 'conference'),
+    'provider' => $provider,
+    'providerkey' => $providerkey,
+    'hasmeetingreference' => $meetingreference !== null,
+    'meetingreferencelabel' => conference_get_meeting_reference_label($providerkey),
+    'meetingreference' => $meetingreference,
+    'meetinglinklabel' => get_string('meetinglink', 'conference'),
+    'meetinglinkhint' => get_string('meetinglinkhint', 'conference', $provider),
+    'joinhelper' => get_string('joinhelper', 'conference'),
     'startlabel' => get_string('timestart', 'conference'),
     'start' => userdate($conference->timestart, get_string('strftimedatetimeshort')),
     'hasend' => !empty($conference->timeend),

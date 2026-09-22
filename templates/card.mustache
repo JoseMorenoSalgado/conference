@@ -1,7 +1,47 @@
 {{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
     @template mod_conference/card
 
-    Conference card shown to enrolled users.
+    Responsive conference card shown to participants.
+
+    Example context (json):
+    {
+        "name": "Clinical nutrition conference",
+        "intro": "<p>Live online conference.</p>",
+        "hasintro": true,
+        "coverurl": "https://example.com/conference.jpg",
+        "hascover": true,
+        "startlabel": "Scheduled start",
+        "start": "30 September 2026, 7:00 PM",
+        "hasend": true,
+        "endlabel": "Scheduled end",
+        "end": "30 September 2026, 8:00 PM",
+        "status": "Available now",
+        "statusclass": "success",
+        "islive": true,
+        "isscheduled": false,
+        "isended": false,
+        "joinurl": "https://example.com/mod/conference/join.php?id=10",
+        "joinlabel": "Join conference",
+        "scheduledmessage": "The conference link will be available at the scheduled time.",
+        "endedmessage": "This conference has ended.",
+        "refreshhint": "Reload this page at the scheduled time."
+    }
 }}
 <div class="mod-conference-card">
     {{#hascover}}

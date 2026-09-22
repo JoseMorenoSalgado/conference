@@ -120,3 +120,32 @@ jobs:
       - name: PHPUnit
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phpunit --fail-on-warning
+
+  package:
+    name: Build installable ZIP
+    needs: test
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Build Moodle install package
+        run: git archive --format=zip --prefix=conference/ HEAD -o conference.zip
+
+      - name: Validate package layout
+        run: |
+          test "$(unzip -Z1 conference.zip | sed 's#/.*##' | sort -u)" = "conference"
+          unzip -Z1 conference.zip | grep -qx 'conference/version.php'
+          unzip -Z1 conference.zip | grep -qx 'conference/lang/en/conference.php'
+          unzip -Z1 conference.zip | grep -qx 'conference/LICENSE'
+
+      - name: Upload installable plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: mod_conference-${{ github.sha }}
+          path: conference.zip
+          if-no-files-found: error
+          retention-days: 30

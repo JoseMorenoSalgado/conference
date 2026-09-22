@@ -1,0 +1,54 @@
+name: Bug report
+description: Report a reproducible problem in mod_conference
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include real meeting URLs, access passcodes, credentials, or personal data.
+  - type: input
+    id: moodle
+    attributes:
+      label: Moodle version
+      placeholder: "Example: Moodle 5.2.3"
+    validations:
+      required: true
+  - type: input
+    id: plugin
+    attributes:
+      label: Plugin version
+      placeholder: "Copy release/version from version.php"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: PHP, database, and theme
+      placeholder: "PHP 8.3, PostgreSQL 16, Boost"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: debug
+    attributes:
+      label: Debugging output
+      description: Remove secrets and personal data before posting.

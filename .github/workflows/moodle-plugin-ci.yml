@@ -97,6 +97,10 @@ jobs:
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phpdoc --max-warnings 0
 
+      - name: PHP Mess Detector
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phpmd
+
       - name: Validate plugin
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci validate

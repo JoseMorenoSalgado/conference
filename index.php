@@ -64,5 +64,13 @@ foreach ($instances as $cm) {
     );
 }
 
-echo html_writer::alist($items);
+if (!$items) {
+    echo $OUTPUT->notification(
+        get_string('nothingtodisplay'),
+        \core\output\notification::NOTIFY_INFO
+    );
+} else {
+    echo html_writer::alist($items);
+}
+
 echo $OUTPUT->footer();

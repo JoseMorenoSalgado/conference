@@ -59,10 +59,10 @@ class mod_conference_mod_form extends moodleform_mod {
         $mform->addHelpButton('meetingurl', 'meetingurl', 'conference');
 
         $mform->addElement(
-            'text',
+            'passwordunmask',
             'accesspassword',
             get_string('accesspassword', 'conference'),
-            ['size' => 32, 'autocomplete' => 'off']
+            ['size' => 32, 'maxlength' => 255, 'autocomplete' => 'off']
         );
         $mform->setType('accesspassword', PARAM_RAW_TRIMMED);
         $mform->addRule(

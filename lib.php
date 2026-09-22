@@ -312,6 +312,11 @@ function mod_conference_core_calendar_provide_event_action(
         return null;
     }
 
+    $context = context_module::instance($cm->id);
+    if (!has_capability('mod/conference:view', $context, $userid)) {
+        return null;
+    }
+
     $conference = $DB->get_record('conference', ['id' => $event->instance]);
     if (!$conference) {
         return null;

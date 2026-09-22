@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/calendar/lib.php');
+require_once($CFG->dirroot . '/mod/conference/locallib.php');
 
 define('CONFERENCE_EVENT_TYPE_START', 'start');
 
@@ -77,10 +78,9 @@ function conference_add_instance($data, $mform = null) {
 
     $id = $DB->insert_record('conference', $data);
 
-    $DB->set_field('course_modules', 'instance', $id, ['id' => $data->coursemodule]);
     $context = context_module::instance($data->coursemodule);
     conference_save_coverimage($data, $context);
-    conference_update_calendar_event($id);
+    conference_update_calendar_event($id, $data->coursemodule);
 
     $completionexpected = !empty($data->completionexpected) ? $data->completionexpected : null;
     \core_completion\api::update_completion_date_event(
@@ -113,7 +113,7 @@ function conference_update_instance($data, $mform = null) {
 
     $context = context_module::instance($data->coursemodule);
     conference_save_coverimage($data, $context);
-    conference_update_calendar_event($data->id);
+    conference_update_calendar_event($data->id, $data->coursemodule);
 
     $completionexpected = !empty($data->completionexpected) ? $data->completionexpected : null;
     \core_completion\api::update_completion_date_event(
@@ -145,11 +145,16 @@ function conference_delete_instance($id) {
         \core_completion\api::update_completion_date_event($cm->id, 'conference', $id, null);
     }
 
-    $DB->delete_records('event', [
+    $eventid = $DB->get_field('event', 'id', [
         'modulename' => 'conference',
         'instance' => $id,
         'eventtype' => CONFERENCE_EVENT_TYPE_START,
     ]);
+    if ($eventid) {
+        $event = calendar_event::load($eventid);
+        $event->delete();
+    }
+
     $DB->delete_records('conference', ['id' => $id]);
 
     return true;
@@ -184,17 +189,30 @@ function conference_save_coverimage($data, context_module $context) {
  * Create or update the calendar event.
  *
  * @param int $conferenceid Conference id.
+ * @param int|null $cmid Course module id, when already known.
  */
-function conference_update_calendar_event($conferenceid) {
+function conference_update_calendar_event($conferenceid, $cmid = null) {
     global $DB;
 
     $conference = $DB->get_record('conference', ['id' => $conferenceid], '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('conference', $conferenceid, $conference->course, false, MUST_EXIST);
+
+    if ($cmid === null) {
+        $cm = get_coursemodule_from_instance(
+            'conference',
+            $conferenceid,
+            $conference->course,
+            false,
+            MUST_EXIST
+        );
+        $cmid = $cm->id;
+    } else {
+        $cm = $DB->get_record('course_modules', ['id' => $cmid], '*', MUST_EXIST);
+    }
 
     $eventdata = (object) [
         'type' => CALENDAR_EVENT_TYPE_ACTION,
         'name' => get_string('calendarstart', 'conference', format_string($conference->name)),
-        'description' => format_module_intro('conference', $conference, $cm->id, false),
+        'description' => format_module_intro('conference', $conference, $cmid, false),
         'format' => FORMAT_HTML,
         'courseid' => $conference->course,
         'groupid' => 0,
@@ -207,6 +225,8 @@ function conference_update_calendar_event($conferenceid) {
         'timeduration' => $conference->timeend > $conference->timestart
             ? $conference->timeend - $conference->timestart
             : 0,
+        'visible' => (int) $cm->visible,
+        'priority' => null,
     ];
 
     $existingid = $DB->get_field('event', 'id', [
@@ -223,6 +243,94 @@ function conference_update_calendar_event($conferenceid) {
     }
 
     calendar_event::create($eventdata, false);
+}
+
+/**
+ * Refresh Conference calendar events.
+ *
+ * Moodle calls this after operations such as course restore so action events
+ * can be recreated from the activity records.
+ *
+ * @param int $courseid Optional course id.
+ * @param stdClass|int|null $instance Optional Conference instance or id.
+ * @param stdClass|int|null $cm Optional course module object or id.
+ * @return bool
+ */
+function conference_refresh_events($courseid = 0, $instance = null, $cm = null) {
+    global $DB;
+
+    if ($instance !== null) {
+        if (!is_object($instance)) {
+            $instance = $DB->get_record('conference', ['id' => $instance], '*', MUST_EXIST);
+        }
+
+        $cmid = null;
+        if ($cm !== null) {
+            $cmid = is_object($cm) ? $cm->id : (int) $cm;
+        }
+
+        conference_update_calendar_event($instance->id, $cmid);
+        return true;
+    }
+
+    $params = $courseid ? ['course' => $courseid] : [];
+    $conferences = $DB->get_records('conference', $params);
+
+    foreach ($conferences as $conference) {
+        conference_update_calendar_event($conference->id);
+    }
+
+    return true;
+}
+
+/**
+ * Provide the calendar action for a Conference event.
+ *
+ * @param calendar_event $event Calendar event.
+ * @param \core_calendar\action_factory $factory Action factory.
+ * @param int $userid Optional user id.
+ * @return \core_calendar\local\event\entities\action_interface|null
+ */
+function mod_conference_core_calendar_provide_event_action(
+    calendar_event $event,
+    \core_calendar\action_factory $factory,
+    int $userid = 0
+) {
+    global $DB, $USER;
+
+    if (!$userid) {
+        $userid = $USER->id;
+    }
+
+    $modinfo = get_fast_modinfo($event->courseid, $userid);
+    if (empty($modinfo->instances['conference'][$event->instance])) {
+        return null;
+    }
+
+    $cm = $modinfo->instances['conference'][$event->instance];
+    if (!$cm->uservisible) {
+        return null;
+    }
+
+    $conference = $DB->get_record('conference', ['id' => $event->instance]);
+    if (!$conference) {
+        return null;
+    }
+
+    $state = conference_get_state($conference);
+    if ($state === 'ended') {
+        return null;
+    }
+
+    if ($state === 'live') {
+        $actionname = get_string('joinconference', 'conference');
+        $url = new moodle_url('/mod/conference/join.php', ['id' => $cm->id]);
+    } else {
+        $actionname = get_string('viewconference', 'conference');
+        $url = new moodle_url('/mod/conference/view.php', ['id' => $cm->id]);
+    }
+
+    return $factory->create_instance($actionname, $url, 1, true);
 }
 
 /**

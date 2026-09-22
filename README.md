@@ -23,7 +23,7 @@ A teacher pastes an HTTPS meeting link for Zoom, Google Meet, Microsoft Teams, J
 - Camera activity icon.
 - Server-side URL gate to avoid exposing the meeting URL early.
 - Server-synchronized countdown with automatic Join-button activation and automatic end-state transition.
-- Course calendar event.
+- Course calendar action event with restore-safe event regeneration.
 - Completion by view.
 - Moodle event logging.
 - Privacy API declaration.
@@ -42,7 +42,7 @@ A teacher pastes an HTTPS meeting link for Zoom, Google Meet, Microsoft Teams, J
 
 The configured meeting URL and optional access password are stored in the activity record but are not rendered to participants before the start time. Participants use the secure join endpoint, which checks login, capability, schedule state, and HTTPS validity. When a password is configured, the endpoint reveals it only after the conference is live and then offers the external conference link.
 
-This plugin does not bypass security controls provided by Zoom, Meet, Teams, or other conference systems. Meeting-room access controls should still be configured at the provider.
+This plugin does not bypass security controls provided by Zoom, Meet, Teams, or other conference systems. Meeting-room access controls should still be configured at the provider. Moodle backup files may contain the configured external meeting URL and access password, so backups should be protected according to the site's security policy.
 
 ## License
 

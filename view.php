@@ -59,7 +59,7 @@ $data = [
     'hasintro' => !empty(trim($conference->intro)),
     'coverurl' => $coverurl ? $coverurl->out(false) : null,
     'hascover' => (bool) $coverurl,
-    'haspassword' => !empty($conference->accesspassword),
+    'haspassword' => $conference->accesspassword !== null && $conference->accesspassword !== '',
     'passwordlabel' => get_string('accesspassword', 'conference'),
     'passwordrequired' => get_string('passwordrequired', 'conference'),
     'startlabel' => get_string('timestart', 'conference'),

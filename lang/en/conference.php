@@ -59,3 +59,4 @@ $string['timeend'] = 'Scheduled end';
 $string['timeend_help'] = 'Optional. After this time, the join button is no longer available.';
 $string['timestart'] = 'Scheduled start';
 $string['timestart_help'] = 'The join button becomes available when this date and time is reached.';
+$string['viewconference'] = 'View conference';

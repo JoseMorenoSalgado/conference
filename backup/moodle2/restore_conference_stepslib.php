@@ -53,6 +53,10 @@ class restore_conference_activity_structure_step extends restore_activity_struct
 
         $data = (object) $data;
         $data->course = $this->get_courseid();
+        $data->timestart = $this->apply_date_offset($data->timestart);
+        if (!empty($data->timeend)) {
+            $data->timeend = $this->apply_date_offset($data->timeend);
+        }
 
         $newitemid = $DB->insert_record('conference', $data);
         $this->apply_activity_instance($newitemid);

@@ -69,7 +69,7 @@
                 <div class="mod-conference-camera" aria-hidden="true">
                     {{#pix}} icon, mod_conference {{/pix}}
                 </div>
-                <span class="badge text-bg-{{statusclass}}" data-region="status-badge">{{status}}</span>
+                <span class="badge text-bg-{{statusclass}}" data-region="status-badge">{{status}}</div>
             </div>
 
             <span class="mod-conference-online">
@@ -80,24 +80,24 @@
 
         <h2 class="mod-conference-title">{{name}}</h2>
 
-        <dl class="mod-conference-meta-grid">
+        <div class="mod-conference-meta-grid">
             <div class="mod-conference-meta-card">
                 <span class="mod-conference-meta-icon" aria-hidden="true">
                     {{#pix}} i/calendar, core {{/pix}}
                 </span>
-                <span class="mod-conference-meta-copy">
-                    <dt>{{startlabel}}</dt>
-                    <dd>{{start}}</dd>
-                </span>
+                <div class="mod-conference-meta-copy">
+                    <span class="mod-conference-meta-label">{{startlabel}}</span>
+                    <span class="mod-conference-meta-value">{{start}}</span>
+                </div>
             </div>
 
             {{#hasmeetingreference}}
                 <div class="mod-conference-meta-card">
                     <span class="mod-conference-meta-icon mod-conference-meta-symbol" aria-hidden="true">#</span>
-                    <span class="mod-conference-meta-copy">
-                        <dt>{{meetingreferencelabel}}</dt>
-                        <dd>{{meetingreference}}</dd>
-                    </span>
+                    <div class="mod-conference-meta-copy">
+                        <span class="mod-conference-meta-label">{{meetingreferencelabel}}</span>
+                        <span class="mod-conference-meta-value">{{meetingreference}}</span>
+                    </div>
                 </div>
             {{/hasmeetingreference}}
 
@@ -106,10 +106,10 @@
                     <span class="mod-conference-meta-icon" aria-hidden="true">
                         {{#pix}} t/locked, core {{/pix}}
                     </span>
-                    <span class="mod-conference-meta-copy">
-                        <dt>{{passwordlabel}}</dt>
-                        <dd>{{passwordrequired}}</dd>
-                    </span>
+                    <div class="mod-conference-meta-copy">
+                        <span class="mod-conference-meta-label">{{passwordlabel}}</span>
+                        <span class="mod-conference-meta-value">{{passwordrequired}}</span>
+                    </div>
                 </div>
             {{/haspassword}}
 
@@ -117,10 +117,10 @@
                 <span class="mod-conference-meta-icon" aria-hidden="true">
                     {{#pix}} icon, mod_conference {{/pix}}
                 </span>
-                <span class="mod-conference-meta-copy">
-                    <dt>{{providerlabel}}</dt>
-                    <dd>{{provider}}</dd>
-                </span>
+                <div class="mod-conference-meta-copy">
+                    <span class="mod-conference-meta-label">{{providerlabel}}</span>
+                    <span class="mod-conference-meta-value">{{provider}}</span>
+                </div>
             </div>
 
             {{#hasend}}
@@ -128,13 +128,13 @@
                     <span class="mod-conference-meta-icon" aria-hidden="true">
                         {{#pix}} i/calendar, core {{/pix}}
                     </span>
-                    <span class="mod-conference-meta-copy">
-                        <dt>{{endlabel}}</dt>
-                        <dd>{{end}}</dd>
-                    </span>
+                    <div class="mod-conference-meta-copy">
+                        <span class="mod-conference-meta-label">{{endlabel}}</span>
+                        <span class="mod-conference-meta-value">{{end}}</span>
+                    </div>
                 </div>
             {{/hasend}}
-        </dl>
+        </div>
 
         <div class="mod-conference-linkstrip">
             <span class="mod-conference-linkicon" aria-hidden="true">
@@ -168,7 +168,7 @@
                  data-region="scheduled">
                 <strong>{{scheduledmessage}}</strong>
                 <span>{{refreshhint}}</span>
-                <span class="mod-conference-countdown" data-region="countdown">{{countdownprefix}}</span>
+                <span class="mod-conference-countdown" data-region="countdown">{{countdownprefix}}</div>
             </div>
 
             <div class="mod-conference-statepanel mod-conference-statepanel-ended{{^isended}} d-none{{/isended}}"
